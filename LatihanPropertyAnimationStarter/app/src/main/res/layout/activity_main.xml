@@ -25,6 +25,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:alpha="0"
+        tools:alpha="100"
         android:id="@+id/nameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,7 +34,7 @@
         android:layout_marginEnd="32dp"
         android:lines="1"
         android:maxLines="1"
-        android:text=""
+        android:text="pp"
         android:textColor="@color/black"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +43,8 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal3" />
 
     <TextView
+        android:alpha="0"
+        tools:alpha="100"
         android:id="@+id/messageTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -67,6 +71,8 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal" />
 
     <Button
+        android:alpha="0"
+        tools:alpha="100"
         android:id="@+id/logoutButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

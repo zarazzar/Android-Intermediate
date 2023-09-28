@@ -1,7 +1,10 @@
 package com.dicoding.picodiploma.loginwithanimation.view.signup
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
@@ -18,6 +21,8 @@ class SignupActivity : AppCompatActivity() {
 
         setupView()
         setupAction()
+
+        playAnimation()
     }
 
     private fun setupView() {
@@ -31,6 +36,27 @@ class SignupActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
+    }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -50f,50f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+        val title = ObjectAnimator.ofFloat(binding.titleTextView,View.ALPHA,1f).setDuration(1000)
+        val tvnama = ObjectAnimator.ofFloat(binding.nameTextView,View.ALPHA,1f).setDuration(500)
+        val etnama = ObjectAnimator.ofFloat(binding.nameEditTextLayout,View.ALPHA,1f).setDuration(500)
+        val tvemail = ObjectAnimator.ofFloat(binding.emailTextView,View.ALPHA,1f).setDuration(500)
+        val etemail = ObjectAnimator.ofFloat(binding.emailEditTextLayout,View.ALPHA,1f).setDuration(500)
+        val tvpass = ObjectAnimator.ofFloat(binding.passwordTextView,View.ALPHA,1f).setDuration(500)
+        val etpass = ObjectAnimator.ofFloat(binding.passwordEditTextLayout,View.ALPHA,1f).setDuration(500)
+        val btndaftar = ObjectAnimator.ofFloat(binding.signupButton,View.ALPHA,1f).setDuration(500)
+
+        AnimatorSet().apply {
+            playSequentially(title,tvnama,etnama,tvemail,etemail,tvpass,etpass,btndaftar)
+            start()
+        }
     }
 
     private fun setupAction() {
