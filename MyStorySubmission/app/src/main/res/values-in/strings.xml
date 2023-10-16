@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">CeritaLu App</string>
+    <string name="title_splash">logo_splash</string>
+    <string name="title_landing">Hiii.. \nWelcome to CeritaLu</string>
+    <string name="landing_description">Gambar Selamat datang</string>
+    <string name="desc_landing">Bagikan momen anda ke orang lain :D \ndan taburkan kebahagiaan.</string>
+    <string name="login">Masuk</string>
+    <string name="register">Daftar</string>
+    <string name="login_title">Masuk dan bagikan moment anda</string>
+    <string name="login_desc">dengan aplikasi ini kamu dapat melihat cerita orang lain</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login_image_desc">Gambar halaman login</string>
+    <string name="register_image_desc">Gambar halaman daftar</string>
+    <string name="name">Nama anda</string>
+    <string name="register_title">Daftarkan akun anda</string>
+    <string name="register_confirmation">Sudah memiliki akun?</string>
+    <string name="login_confirmation">Belum memiliki akun?</string>
+    <string name="validate_email">email tidak valid!</string>
+    <string name="validate_password">jangan kurang dari 8 huruf!</string>
+    <string name="register_success">Register berhasi;!</string>
+    <string name="stories_image">Gambar cerita</string>
+    <string name="stories_icon">Ikon aplikasi</string>
+    <string name="user_name">Nama pengguna</string>
+    <string name="detail_instruction">tekan gambar untuk detail</string>
+    <string name="upload_story">posting cerita anda</string>
+    <string name="log_out">Keluar</string>
+    <string name="language">Bahasa</string>
+    <string name="setting">pengaturan</string>
+    <string name="image_preview">tampilan gambar</string>
+    <string name="choose_from_gallery">Dari Gallery</string>
+    <string name="choose_from_camera">Buka kamera</string>
+    <string name="describe_your_image">Deskripsikan gambarmu</string>
+    <string name="post">Posting</string>
+    <string name="empty_image_warning">Tidak ada gambar dipilih :( </string>
+    <string name="post_activity_title">Bagikan cerita anda</string>
+    <string name="a_story_from">Cerita dari :</string>
+    <string name="user">pengguna</string>
+    <string name="content_description">deskripsi konten</string>
+    <string name="empty_warning">jangan kosong gan!</string>
+    <string name="welcome">Selamat Datang,</string>
+    <string name="detail_bar">Cerita dari</string>
+
+</resources>

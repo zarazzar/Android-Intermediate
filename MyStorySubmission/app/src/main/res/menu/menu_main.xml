@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/setting">
+        <menu>
+            <item
+                android:id="@+id/language"
+                android:title="@string/language"
+                android:icon="@drawable/ic_translate"
+                app:showAsAction="never"
+                android:onClick="changeLanguage"
+                />
+            <item
+                android:id="@+id/logout"
+                android:title="@string/log_out"
+                android:icon="@drawable/ic_logout"
+                app:showAsAction="never"
+                android:onClick="logout"
+                />
+        </menu>
+    </item>
+</menu>
