@@ -19,11 +19,11 @@ data class Story(
     @field:SerializedName("createdAt")
     val createdAt: String,
 
-//    @field:SerializedName("lon")
-//    val lon: Double? = null
-//
-//    @field:SerializedName("lat")
-//    val lat: Double? = null
+    @field:SerializedName("lon")
+    val lon: Double,
+
+    @field:SerializedName("lat")
+    val lat: Double
 )
 
 data class ResponseDetail(

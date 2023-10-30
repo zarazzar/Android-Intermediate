@@ -1,9 +1,13 @@
 package com.dicoding.mystorysubmission.data.response
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "story")
 data class ListStoryItem(
 
+    @PrimaryKey
     @field:SerializedName("id")
     val id: String,
 
@@ -19,11 +23,11 @@ data class ListStoryItem(
     @field:SerializedName("createdAt")
     val createdAt: String,
 
-//    @field:SerializedName("lon")
-//    val lon: Double? = null
-//
-//    @field:SerializedName("lat")
-//    val lat: Double? = null
+    @field:SerializedName("lon")
+    val lon: Double,
+
+    @field:SerializedName("lat")
+    val lat: Double
 )
 
 data class ResponseStories(
