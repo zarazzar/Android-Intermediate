@@ -40,19 +40,4 @@
     <string name="empty_warning">this field must not be empty</string>
     <string name="welcome">Welcome,</string>
     <string name="detail_bar">Story by</string>
-    <string name="maps">maps</string>
-    <string name="title_activity_maps">MapsActivity</string>
-    <string name="share_location">Share your location</string>
-    <string name="permission_granted">Access permitted</string>
-    <string name="permission_denied">Allow Access first</string>
-    <string name="created_city">City -</string>
-    <string name="created_at">--:--</string>
-    <string name="coba_lagi">Try Again</string>
-    <string name="map_loaded">Load Location Success</string>
-    <string name="map_loading">Loading…</string>
-    <string name="failed_getLocation">Failed get Location</string>
-    <string name="failed_getMap">Failed get Map</string>
-    <string name="map_toDetail">Tap to see their story</string>
-
-
 </resources>

@@ -7,7 +7,6 @@ import com.dicoding.mystorysubmission.data.StoryRepository
 import com.dicoding.mystorysubmission.ui.detail.DetailViewModel
 import com.dicoding.mystorysubmission.ui.login.LoginViewModel
 import com.dicoding.mystorysubmission.ui.main.MainViewModel
-import com.dicoding.mystorysubmission.ui.maps.MapsViewModel
 import com.dicoding.mystorysubmission.ui.register.RegistryViewModel
 import com.dicoding.mystorysubmission.ui.splash.SplashViewModel
 import com.dicoding.mystorysubmission.ui.story.PostViewModel
@@ -43,10 +42,6 @@ class ViewModelFactory(private val storyRepository: StoryRepository) :
                 DetailViewModel(storyRepository) as T
             }
 
-            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
-                MapsViewModel(storyRepository) as T
-            }
-
             else -> throw IllegalArgumentException("ViewModel class unavailable: ${modelClass.name}")
         }
     }
@@ -65,5 +60,4 @@ class ViewModelFactory(private val storyRepository: StoryRepository) :
             return instance as ViewModelFactory
         }
     }
-
 }

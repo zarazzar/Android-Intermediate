@@ -5,7 +5,6 @@ import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -34,23 +33,6 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
         }
     }
 
-    fun getSessionLocation(): Flow<LocationModel> {
-        return dataStore.data.map { pref ->
-            LocationModel(
-                pref[LAT] ?: 0.0,
-                pref[LON] ?: 0.0
-            )
-        }
-    }
-
-    suspend fun saveSessionLocation(location: LocationModel) {
-        dataStore.edit { pref ->
-            pref[LAT] = location.lat
-            pref[LON] = location.lon
-            pref[LOGIN_KEY] = true
-        }
-    }
-
     suspend fun logout() {
         dataStore.edit { pref ->
             pref.clear()
@@ -63,8 +45,6 @@ class SessionPreferences private constructor(private val dataStore: DataStore<Pr
         private val NAME_KEY = stringPreferencesKey("name")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val LOGIN_KEY = booleanPreferencesKey("isLogin")
-        private val LAT = doublePreferencesKey("latitude")
-        private val LON = doublePreferencesKey("longitude")
 
         fun getInstance(dataStore: DataStore<Preferences>): SessionPreferences {
             return INSTANCE ?: synchronized(this) {

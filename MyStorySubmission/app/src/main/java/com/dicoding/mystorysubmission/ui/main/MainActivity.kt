@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.mystorysubmission.R
+import com.dicoding.mystorysubmission.data.Result
 import com.dicoding.mystorysubmission.databinding.ActivityMainBinding
 import com.dicoding.mystorysubmission.ui.landingScreen.LandingActivity
-import com.dicoding.mystorysubmission.ui.maps.MapsActivity
 import com.dicoding.mystorysubmission.ui.story.PostStoryActivity
 import com.dicoding.mystorysubmission.utlis.ViewModelFactory
 
@@ -17,10 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val mainViewModel by viewModels<MainViewModel> {
-        ViewModelFactory.getInstance(this, true)
+    private val  mainViewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(this,true)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         setBtnAction()
         showAllStories()
         setTitle()
-        menuBar()
     }
 
     private fun setTitle() {
@@ -40,14 +41,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAllStories() {
-        val adapter = StoriesAdapter()
-        binding.rvStory.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter {
-                adapter.retry()
+       mainViewModel.getAllStories().observe(this) {result ->
+           if (result != null) {
+               when (result) {
+                   is Result.Success -> {
+                       showLoading(false)
+                       val adapter = StoriesAdapter(result.data.listStory)
+                       binding.rvStory.adapter = adapter
+
+                   }
+                   is Result.Error -> {
+                       showLoading(false)
+                       mainViewModel.getCurrentSession().observe(this) { session ->
+                           Toast.makeText(this@MainActivity, session.token, Toast.LENGTH_SHORT).show()
+
+                       }
+                       Toast.makeText(this@MainActivity, result.error, Toast.LENGTH_SHORT).show()
+                   }
+                   is Result.Loading -> {
+                       showLoading(true)
+                   }
+               }
+           }
+
+       }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                rvStory.visibility = View.INVISIBLE
+                pbMain.visibility = View.VISIBLE
+            } else {
+                rvStory.visibility = View.VISIBLE
+                pbMain.visibility = View.GONE
             }
-        )
-        mainViewModel.stories.observe(this) {
-            adapter.submitData(lifecycle, it)
         }
     }
 
@@ -57,42 +85,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBtnAction() {
         binding.fabPostStory.setOnClickListener {
-            val intentToUpload = Intent(this@MainActivity, PostStoryActivity::class.java)
+            val intentToUpload = Intent(this@MainActivity,PostStoryActivity::class.java)
             startActivity(intentToUpload)
         }
     }
 
-    private fun menuBar() {
-        binding.MTAppBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.language -> {
-                    val intentToSettings = Intent(Settings.ACTION_LOCALE_SETTINGS)
-                    startActivity(intentToSettings)
-                    true
-                }
-
-                R.id.logout -> {
-                    mainViewModel.logout()
-                    val intent = Intent(this@MainActivity, LandingActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                    true
-                }
-
-                R.id.maps -> {
-                    val intentToMaps = Intent(this@MainActivity, MapsActivity::class.java)
-                    startActivity(intentToMaps)
-                    true
-                }
-
-                else -> false
-            }
-        }
+    fun changeLanguage(item: MenuItem) {
+        val intentToSettings = Intent(Settings.ACTION_LOCALE_SETTINGS)
+        startActivity(intentToSettings)
     }
 
-    override fun onBackPressed() {
+    fun logout(item: MenuItem) {
+        mainViewModel.logout()
+        val intent = Intent(this@MainActivity, LandingActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onBackPressed(){
         super.onBackPressed()
         finishAffinity()
     }
+
 
 }

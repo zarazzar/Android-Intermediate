@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     private val loginViewModel by viewModels<LoginViewModel> {
-        ViewModelFactory.getInstance(this, true)
+        ViewModelFactory.getInstance(this,true)
     }
 
     private lateinit var email: String
@@ -34,6 +34,8 @@ class LoginActivity : AppCompatActivity() {
 
         loginAnimation()
         setBtnAction()
+
+
     }
 
     private fun setBtnAction() {
@@ -65,8 +67,7 @@ class LoginActivity : AppCompatActivity() {
                                 result.data.loginResult.token
                             )
                         )
-                        Toast.makeText(this@LoginActivity, result.data.message, Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(this@LoginActivity, result.data.message, Toast.LENGTH_SHORT).show()
                         val intentToMain = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intentToMain)
                         finish()
@@ -82,6 +83,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
+
         }
     }
 
@@ -106,32 +108,34 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             val title = ObjectAnimator.ofFloat(tvTitleLogin, View.ALPHA, 1f).setDuration(500)
             val desc = ObjectAnimator.ofFloat(tvDescLogin, View.ALPHA, 1f).setDuration(500)
-            val tvEmail = ObjectAnimator.ofFloat(tvEmail, View.ALPHA, 1f).setDuration(500)
-            val etEmail = ObjectAnimator.ofFloat(tlEmail, View.ALPHA, 1f).setDuration(500)
-            val tvPass = ObjectAnimator.ofFloat(tvPassword, View.ALPHA, 1f).setDuration(500)
-            val etPass = ObjectAnimator.ofFloat(tlPass, View.ALPHA, 1f).setDuration(500)
-            val btnLogin = ObjectAnimator.ofFloat(btnLogin, View.ALPHA, 1f).setDuration(500)
-            val tvConfirmation =
+            val tvemail = ObjectAnimator.ofFloat(tvEmail, View.ALPHA, 1f).setDuration(500)
+            val etemail = ObjectAnimator.ofFloat(tlEmail, View.ALPHA, 1f).setDuration(500)
+            val tvpass = ObjectAnimator.ofFloat(tvPassword, View.ALPHA, 1f).setDuration(500)
+            val etpass = ObjectAnimator.ofFloat(tlPass, View.ALPHA, 1f).setDuration(500)
+            val btnlogin = ObjectAnimator.ofFloat(btnLogin, View.ALPHA, 1f).setDuration(500)
+            val tvconfirmation =
                 ObjectAnimator.ofFloat(tvNotHaveAcc, View.ALPHA, 1f).setDuration(500)
-            val tvToRegister = ObjectAnimator.ofFloat(tvToRegister, View.ALPHA, 1f).setDuration(500)
+            val tvtoregister = ObjectAnimator.ofFloat(tvToRegister, View.ALPHA, 1f).setDuration(500)
 
             val playTogehter = AnimatorSet().apply {
-                playTogether(tvConfirmation, tvToRegister)
+                playTogether(tvconfirmation, tvtoregister)
             }
 
             AnimatorSet().apply {
                 playSequentially(
                     title,
                     desc,
-                    tvEmail,
-                    etEmail,
-                    tvPass,
-                    etPass,
-                    btnLogin,
+                    tvemail,
+                    etemail,
+                    tvpass,
+                    etpass,
+                    btnlogin,
                     playTogehter
                 )
             }.start()
+
         }
     }
+
 
 }

@@ -40,17 +40,5 @@
     <string name="empty_warning">jangan kosong gan!</string>
     <string name="welcome">Selamat Datang,</string>
     <string name="detail_bar">Cerita dari</string>
-    <string name="maps">Peta</string>
-    <string name="title_activity_maps">Peta</string>
-    <string name="share_location">Bagikan Lokasimu</string>
-    <string name="permission_granted">Akses diizinkan</string>
-    <string name="permission_denied">Izinkan akses terlebih dahulu</string>
-    <string name="created_city">Lokasi -</string>
-    <string name="created_at">--:--</string>
-    <string name="coba_lagi">Coba Lagi :( </string>
-    <string name="map_loaded">Lokasi berhasil dimuat</string>
-    <string name="map_loading">Loading…</string>
-    <string name="failed_getLocation">Gagal memuat lokasi</string>
-    <string name="failed_getMap">Gagal Memuat Peta</string>
-    <string name="map_toDetail">Pencet untuk melihat cerita</string>
+
 </resources>

@@ -25,16 +25,16 @@ class LandingActivity : AppCompatActivity() {
     private fun btnAction() {
         binding.apply {
             btnLoginWelcome.setOnClickListener {
-                startActivity(Intent(this@LandingActivity, LoginActivity::class.java))
+                startActivity(Intent(this@LandingActivity,LoginActivity::class.java))
             }
             btnRegisterWelcome.setOnClickListener {
-                startActivity(Intent(this@LandingActivity, RegisterActivity::class.java))
+                startActivity(Intent(this@LandingActivity,RegisterActivity::class.java))
             }
         }
     }
 
     private fun landingAnimation() {
-        ObjectAnimator.ofFloat(binding.ivWelcome, View.TRANSLATION_X, -20f, 20f).apply {
+        ObjectAnimator.ofFloat(binding.ivWelcome, View.TRANSLATION_X, -20f,20f).apply {
             duration = 5000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
@@ -44,15 +44,14 @@ class LandingActivity : AppCompatActivity() {
             val title = ObjectAnimator.ofFloat(tvTitle, View.ALPHA, 1f).setDuration(500)
             val desc = ObjectAnimator.ofFloat(tvDesc, View.ALPHA, 1f).setDuration(500)
             val login = ObjectAnimator.ofFloat(btnLoginWelcome, View.ALPHA, 1f).setDuration(500)
-            val register =
-                ObjectAnimator.ofFloat(btnRegisterWelcome, View.ALPHA, 1f).setDuration(500)
+            val register = ObjectAnimator.ofFloat(btnRegisterWelcome, View.ALPHA, 1f).setDuration(500)
 
             val playTogether = AnimatorSet().apply {
-                playTogether(login, register)
+                playTogether(login,register)
             }
 
             AnimatorSet().apply {
-                playSequentially(title, desc, playTogether)
+                playSequentially(title,desc,playTogether)
                 start()
             }
         }
