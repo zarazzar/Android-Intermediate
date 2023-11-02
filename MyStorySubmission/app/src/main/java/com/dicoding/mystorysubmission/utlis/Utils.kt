@@ -47,7 +47,7 @@ private fun getImageUriForPreQ(context: Context): Uri {
     val imageFile = File(filesDir, "/MyCamera/$timeStamp.jpg")
     if (imageFile.parentFile?.exists() == false) imageFile.parentFile?.mkdir()
     return FileProvider.getUriForFile(
-        context,"${BuildConfig.APPLICATION_ID}.fileprovider", imageFile
+        context, "${BuildConfig.APPLICATION_ID}.fileprovider", imageFile
     )
 }
 

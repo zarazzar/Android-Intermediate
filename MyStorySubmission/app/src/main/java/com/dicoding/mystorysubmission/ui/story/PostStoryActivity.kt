@@ -4,6 +4,7 @@ import android.net.Uri
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +16,16 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.dicoding.mystorysubmission.R
 import com.dicoding.mystorysubmission.data.Result
+import com.dicoding.mystorysubmission.data.preferences.LocationModel
 import com.dicoding.mystorysubmission.databinding.ActivityPostStoryBinding
 import com.dicoding.mystorysubmission.ui.main.MainActivity
 import com.dicoding.mystorysubmission.utlis.ViewModelFactory
 import com.dicoding.mystorysubmission.utlis.getImageUri
 import com.dicoding.mystorysubmission.utlis.reduceFileImage
 import com.dicoding.mystorysubmission.utlis.uriToFile
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import okhttp3.RequestBody
 
 class PostStoryActivity : AppCompatActivity() {
 
@@ -30,15 +35,26 @@ class PostStoryActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this, true)
     }
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private var currentImageUri: Uri? = null
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                Toast.makeText(this@PostStoryActivity, permission_granted, Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    this@PostStoryActivity,
+                    getString(R.string.permission_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
+                getMyLastLocation()
             } else {
-                Toast.makeText(this@PostStoryActivity, permission_denied, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PostStoryActivity,
+                    getString(R.string.permission_denied),
+                    Toast.LENGTH_SHORT
+                ).show()
+                getMyLastLocation()
             }
         }
 
@@ -47,6 +63,28 @@ class PostStoryActivity : AppCompatActivity() {
             this,
             REQUIRED_PERMISSION
         ) == PackageManager.PERMISSION_GRANTED
+
+    private val requestLocationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+            }
+        }
+
+    private fun checkLocationPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +97,8 @@ class PostStoryActivity : AppCompatActivity() {
         }
 
         if (!allPermissionGranted()) requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         setBtnAction()
     }
@@ -82,8 +122,17 @@ class PostStoryActivity : AppCompatActivity() {
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("file", "Image:  ${imageFile.path}")
             val description = binding.etDescription.text.toString()
+            var lat: Double? = null
+            var lon: Double? = null
 
-            postViewModel.postStory(imageFile, description).observe(this) { result ->
+            if (binding.switchLocation.isChecked) {
+                postViewModel.getLocationSession().observe(this) { location ->
+                    lat = location.lat
+                    lon = location.lon
+                }
+            }
+
+            postViewModel.postStory(imageFile, description, lat, lon).observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is Result.Success -> {
@@ -111,6 +160,7 @@ class PostStoryActivity : AppCompatActivity() {
                     }
                 }
             }
+
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 
@@ -150,6 +200,31 @@ class PostStoryActivity : AppCompatActivity() {
         launcherIntentCamera.launch(currentImageUri)
     }
 
+    private fun getMyLastLocation() {
+        if (checkLocationPermission(Manifest.permission.ACCESS_COARSE_LOCATION) && checkLocationPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    postViewModel.saveLocationSession(
+                        LocationModel(
+                            location.latitude,
+                            location.longitude
+                        )
+                    )
+                }
+            }
+        } else {
+            requestLocationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
     private fun showLoading(isLoading: Boolean) {
         binding.apply {
             if (isLoading) {
@@ -174,8 +249,6 @@ class PostStoryActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val permission_granted = "Permission Granted"
-        private const val permission_denied = "Permission Denied"
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
     }
 }

@@ -3,6 +3,7 @@ package com.dicoding.mystorysubmission.utlis
 import android.content.Context
 import com.dicoding.mystorysubmission.data.StoryRepository
 import com.dicoding.mystorysubmission.data.api.ApiConfig
+import com.dicoding.mystorysubmission.data.database.StoriesDatabase
 import com.dicoding.mystorysubmission.data.preferences.SessionPreferences
 import com.dicoding.mystorysubmission.data.preferences.dataStore
 import kotlinx.coroutines.flow.first
@@ -16,6 +17,7 @@ object Injection {
             preferences.getSession().first().token
         }
         val apiService = ApiConfig.getApiService(userToken)
-        return StoryRepository.getInstance(preferences,apiService,true)
+        val database = StoriesDatabase.getDatabase(context)
+        return StoryRepository.getInstance(preferences, apiService, database, true)
     }
 }

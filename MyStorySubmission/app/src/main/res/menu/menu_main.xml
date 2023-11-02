@@ -2,24 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        app:showAsAction="ifRoom"
+        android:id="@+id/maps"
+        android:icon="@drawable/ic_maps"
+        android:title="@string/maps"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
-        android:title="@string/setting">
+        android:title="@string/setting"
+        app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/language"
-                android:title="@string/language"
                 android:icon="@drawable/ic_translate"
-                app:showAsAction="never"
-                android:onClick="changeLanguage"
-                />
+                android:title="@string/language"
+                app:showAsAction="never" />
             <item
                 android:id="@+id/logout"
-                android:title="@string/log_out"
                 android:icon="@drawable/ic_logout"
-                app:showAsAction="never"
-                android:onClick="logout"
-                />
+                android:title="@string/log_out"
+                app:showAsAction="never" />
         </menu>
     </item>
+
 </menu>

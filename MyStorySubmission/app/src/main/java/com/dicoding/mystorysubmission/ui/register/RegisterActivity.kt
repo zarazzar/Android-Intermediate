@@ -19,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
 
     private val registerViewModel by viewModels<RegistryViewModel> {
-        ViewModelFactory.getInstance(this,true)
+        ViewModelFactory.getInstance(this, true)
     }
 
     private lateinit var name: String
@@ -36,29 +36,40 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerAnimation() {
-        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y,-20f,20f).apply {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, -20f, 20f).apply {
             duration = 4000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
         }.start()
         binding.apply {
             val title = ObjectAnimator.ofFloat(tvTitleRegister, View.ALPHA, 1f).setDuration(500)
-            val tvname = ObjectAnimator.ofFloat(tvNameRegister, View.ALPHA, 1f).setDuration(500)
-            val etname = ObjectAnimator.ofFloat(tlName, View.ALPHA, 1f).setDuration(500)
-            val tvemail = ObjectAnimator.ofFloat(tvEmail, View.ALPHA, 1f).setDuration(500)
-            val etemail = ObjectAnimator.ofFloat(tlEmail, View.ALPHA, 1f).setDuration(500)
-            val tvpass = ObjectAnimator.ofFloat(tvPassword, View.ALPHA, 1f).setDuration(500)
-            val etpass = ObjectAnimator.ofFloat(tlPassword, View.ALPHA, 1f).setDuration(500)
-            val btnregister = ObjectAnimator.ofFloat(btnRegister, View.ALPHA, 1f).setDuration(500)
-            val tvconfirmation = ObjectAnimator.ofFloat(tvAlreadyLogin, View.ALPHA, 1f).setDuration(500)
-            val tvtologin = ObjectAnimator.ofFloat(tvToLogin, View.ALPHA, 1f).setDuration(500)
+            val tvName = ObjectAnimator.ofFloat(tvNameRegister, View.ALPHA, 1f).setDuration(500)
+            val etName = ObjectAnimator.ofFloat(tlName, View.ALPHA, 1f).setDuration(500)
+            val tvEmail = ObjectAnimator.ofFloat(tvEmail, View.ALPHA, 1f).setDuration(500)
+            val etEmail = ObjectAnimator.ofFloat(tlEmail, View.ALPHA, 1f).setDuration(500)
+            val tvPass = ObjectAnimator.ofFloat(tvPassword, View.ALPHA, 1f).setDuration(500)
+            val etPass = ObjectAnimator.ofFloat(tlPassword, View.ALPHA, 1f).setDuration(500)
+            val btnRegister = ObjectAnimator.ofFloat(btnRegister, View.ALPHA, 1f).setDuration(500)
+            val tvConfirmation =
+                ObjectAnimator.ofFloat(tvAlreadyLogin, View.ALPHA, 1f).setDuration(500)
+            val tvToLogin = ObjectAnimator.ofFloat(tvToLogin, View.ALPHA, 1f).setDuration(500)
 
             val playTogether = AnimatorSet().apply {
-                playTogether(tvconfirmation,tvtologin)
+                playTogether(tvConfirmation, tvToLogin)
             }
 
             AnimatorSet().apply {
-                playSequentially(title,tvname,etname,tvemail,etemail,tvpass,etpass,btnregister,playTogether)
+                playSequentially(
+                    title,
+                    tvName,
+                    etName,
+                    tvEmail,
+                    etEmail,
+                    tvPass,
+                    etPass,
+                    btnRegister,
+                    playTogether
+                )
                 start()
             }
         }
@@ -83,16 +94,21 @@ class RegisterActivity : AppCompatActivity() {
             email = etEmail.text.toString()
             pass = etPassword.text.toString()
         }
-        registerViewModel.registerUser(name, email, pass).observe(this) {result ->
+        registerViewModel.registerUser(name, email, pass).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Success -> {
                         showLoading(false)
-                        Toast.makeText(this@RegisterActivity, result.data.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            result.data.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                         val intentToLogin = Intent(this@RegisterActivity, LoginActivity::class.java)
                         startActivity(intentToLogin)
                         finish()
                     }
+
                     is Result.Error -> {
                         showLoading(false)
                         Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
@@ -103,9 +119,7 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
-
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -118,7 +132,6 @@ class RegisterActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
             }
         }
-
-
     }
+
 }
